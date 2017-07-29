@@ -1,6 +1,4 @@
-import rainbow from 'rainbow.js'
-
-function greetings (state = rainbow(), action) {
+function greetings (state = [], action) {
   switch (action.type) {
     case 'RECEIVE_GREETINGS':
       return [...action.greetings]

@@ -25,7 +25,6 @@ class Canvas extends React.Component {
     let {height, width} = this.state
     return (
       <svg height={height * 0.9} width={width} onClick={(e) => this.spawnNewStart(e)}>
-        <circle cx={100} cy={100} r={100} />
         {this.renderChildren()}
       </svg>
     )

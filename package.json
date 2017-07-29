@@ -40,6 +40,8 @@
     "jsdom": "^11.0.0",
     "jsx-loader": "^0.13.2",
     "nodemon": "^1.11.0",
+    "rainbow.js": "^0.2.1",
+    "rainbowvis.js": "^1.0.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
