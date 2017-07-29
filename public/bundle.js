@@ -28127,6 +28127,10 @@ var _rainbowvis = __webpack_require__(282);
 
 var _rainbowvis2 = _interopRequireDefault(_rainbowvis);
 
+var _Child = __webpack_require__(283);
+
+var _Child2 = _interopRequireDefault(_Child);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28148,31 +28152,79 @@ var Start = function (_React$Component) {
         r = props.r;
 
     var rainbow = new _rainbowvis2.default();
-    rainbow.setNumberRange(0, 1000);
+    _this.reduceSize = _this.reduceSize.bind(_this);
+    rainbow.setNumberRange(0, 100);
     rainbow.setSpectrum('ADA7C9', 'A0C1D1');
     _this.state = {
       cx: cx,
       cy: cy,
       r: r,
-      rainbow: rainbow
+      rainbow: rainbow,
+      i: 0,
+      children: []
     };
     return _this;
   }
 
   _createClass(Start, [{
-    key: 'render',
-    value: function render() {
+    key: 'reduceSize',
+    value: function reduceSize(newI) {
+      this.setState({ r: this.state.r - newI });
+    }
+  }, {
+    key: 'addChild',
+    value: function addChild() {
       var _state = this.state,
           cx = _state.cx,
           cy = _state.cy,
           r = _state.r,
-          rainbow = _state.rainbow;
+          rainbow = _state.rainbow,
+          children = _state.children,
+          i = _state.i;
+
+      var newChild = { cx: cx, cy: cy, r: r, rainbow: rainbow, i: i + 1 };
+      children.push(newChild);
+      this.setState({ children: children });
+    }
+  }, {
+    key: 'renderChildren',
+    value: function renderChildren() {
+      var _this2 = this;
+
+      return this.state.children.map(function (_ref, key) {
+        var cx = _ref.cx,
+            cy = _ref.cy,
+            rainbow = _ref.rainbow,
+            i = _ref.i,
+            r = _ref.r;
+        return _react2.default.createElement(_Child2.default, { key: key, cx: cx, cy: cy, r: r, i: i, rainbow: _this2.state.rainbow, callback: _this2.reduceSize });
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      setTimeout(function () {
+        return _this3.addChild();
+      }, 1000);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state2 = this.state,
+          cx = _state2.cx,
+          cy = _state2.cy,
+          r = _state2.r,
+          rainbow = _state2.rainbow,
+          i = _state2.i;
 
 
       return _react2.default.createElement(
         'g',
         null,
-        _react2.default.createElement('circle', { style: { fill: rainbow.colourAt(Math.floor(Math.random() * 1000)) }, cx: cx, cy: cy, r: r })
+        _react2.default.createElement('circle', { style: { fill: rainbow.colourAt(i) }, cx: cx, cy: cy, r: r }),
+        this.renderChildren()
       );
     }
   }]);
@@ -28527,6 +28579,76 @@ if (true) {
   module.exports = Rainbow;
 }
 
+
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Child = function (_React$Component) {
+  _inherits(Child, _React$Component);
+
+  function Child(props) {
+    _classCallCheck(this, Child);
+
+    var _this = _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).call(this, props));
+
+    var cx = props.cx,
+        cy = props.cy,
+        r = props.r,
+        i = props.i,
+        rainbow = props.rainbow,
+        callback = props.callback;
+
+    _this.state = {
+      cx: cx, cy: cy, r: r, i: i, rainbow: rainbow, callback: callback
+    };
+    return _this;
+  }
+
+  _createClass(Child, [{
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          cx = _state.cx,
+          cy = _state.cy,
+          r = _state.r,
+          rainbow = _state.rainbow,
+          i = _state.i;
+
+
+      return _react2.default.createElement(
+        'g',
+        null,
+        _react2.default.createElement('circle', { style: { fill: rainbow.colourAt(i) }, cx: cx, cy: cy, r: r })
+      );
+    }
+  }]);
+
+  return Child;
+}(_react2.default.Component);
+
+exports.default = Child;
 
 /***/ })
 /******/ ]);
